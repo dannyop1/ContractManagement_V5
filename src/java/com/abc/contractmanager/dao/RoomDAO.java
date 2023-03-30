@@ -286,7 +286,28 @@ public class RoomDAO {
         return result;
     }
 
-//    public static boolean checkRoom
+    public static boolean isRoomFree(int RoID){
+        boolean result = true;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT [RoID]\n"
+                        + "FROM [dbo].[Room]\n"
+                        + "where [OID] IS NULL && [RoID] = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, RoID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null && rs.next()) {
+                    result = false;
+                }
+                cn.close();
+            }
+        } catch (Exception e) {
+            e.getCause();
+        }
+        return result;
+    }
     
     public static void main(String[] args) {
         System.out.println(getRoomImg(1));

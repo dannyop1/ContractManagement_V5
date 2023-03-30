@@ -7,6 +7,7 @@ package com.abc.contractmanager.controllers;
 
 import com.abc.contractmanager.dao.OwnerDAO;
 import com.abc.contractmanager.dao.RoomDAO;
+import com.abc.contractmanager.dto.OwnerDTO;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,7 +39,7 @@ public class ReadContractPDFServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String path = (String)request.getAttribute("path");
+            String path = (String) request.getAttribute("path");
             File file = new File(path);
             PDDocument doc = Loader.loadPDF(file);
             String PDF_content = new PDFTextStripper().getText(doc);
@@ -54,14 +55,21 @@ public class ReadContractPDFServlet extends HttpServlet {
                 }
             }
             doc.close();
-            
-            if(RoomDAO.updateOwner(0, 0))
-            
-            request.setAttribute("owner", OwnerDAO.getOwnerByCID(CID));
-            request.setAttribute("room", RoID);
+            OwnerDTO owner = OwnerDAO.getOwnerByCID(CID);
+            if (owner == null) {
+                request.setAttribute("noti", "User not exist in the system!");
+                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
+            } else if (!RoomDAO.isRoomFree(Integer.parseInt(RoID))) {
+                request.setAttribute("noti", "Something wrong!");
+                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
+            } else {
+                request.setAttribute("owner", owner);
+                request.setAttribute("room", RoID);
+                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
+            }
+
 //            out.print("<h1>" + RoID + "</h1>");
 //            out.print("<h1>" + CID + "</h1>");
-            request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
         }
     }
 
