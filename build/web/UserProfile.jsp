@@ -38,6 +38,7 @@
     </head>
 
     <body>
+        
 
         <!-- ======= Header ======= -->
         <header id="header" class="header fixed-top d-flex align-items-center">
@@ -164,7 +165,7 @@
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="MainController?action=Find2contracts">Home</a></li>
-                        
+
                         <li class="breadcrumb-item active">Profile</li>
 
                     </ol>
@@ -176,25 +177,45 @@
                     <div class="col-xl-4">
 
                         <div class="card">
-                           
-                                <form method="post" action="SetAvatarServlet" enctype="multipart/form-data">
-                            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                                <label for="avatar">
-                                    <img src="images/${sessionScope.user.getAvatar()}" alt="Profile" class="rounded-circle">
-                                </label>
-                                <input class="form-control" type="file" id="avatar" name="avatar" style="opacity: 0; position: absolute; left: -9999px;" />
-                                <h2>${sessionScope.user.getFullName()}</h2> <br>
-                                
-                                <input class="btn btn-primary btn-sm" type="submit" value="UPDATE AVATAR">
-                            </div>
-                            </form>
 
+                            <form method="post" action="SetAvatarServlet" enctype="multipart/form-data">
+                                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                    <label for="avatar">
+                                        <img src="images/${sessionScope.user.getAvatar()}" alt="Profile" class="rounded-circle">
+                                    </label>
+                                    <input class="form-control" type="file" id="avatar" name="avatar" style="opacity: 0; position: absolute; left: -9999px;" />
+                                    <h2>${sessionScope.user.getFullName()}</h2> <br>
+
+                                    <input class="btn btn-primary btn-sm" type="submit" value="UPDATE AVATAR">
+                                </div>
+                            </form>
+                            <script>
+                                const form = document.querySelector('form');
+                                const spinner = document.querySelector('.spinner-border');
+
+                                form.addEventListener('submit', (event) => {
+                                    event.preventDefault(); // prevent form from submitting
+                                    spinner.style.display = 'block'; // show spinner
+
+// submit form using AJAX
+                                    const xhr = new XMLHttpRequest();
+                                    xhr.open('POST', form.action, true);
+                                    xhr.onload = () => {
+                                        if (xhr.status === 200) {
+                                            spinner.style.display = 'none'; // hide spinner
+                                            location.reload(); // reload page
+                                        }
+                                    };
+                                    xhr.send(new FormData(form));
+                                });
+
+                            </script>
 
 
 
                             <div class="d-flex flex-column align-items-center">     
                                 <div class="p-0">
-                                   <form method="post" action="MainController">
+                                    <form method="post" action="MainController">
                                         <label>
 
                                             <input class="btn btn-danger btn-sm" type="submit" value="REMOVE AVATAR">
@@ -215,9 +236,9 @@
 
                                     }
                                 </style>
-                               
-                                    
-                              
+
+
+
 
 
 

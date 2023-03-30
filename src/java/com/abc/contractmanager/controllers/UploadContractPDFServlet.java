@@ -41,7 +41,7 @@ public class UploadContractPDFServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             Part filePart = request.getPart("pdf");
             String fileName = filePart.getSubmittedFileName();
-            String path = "D:\\Study\\SWP_Final\\ContractManagement_V5\\web\\contracts";
+            String path = "E:\\STUDY DATA\\ContractManager_Ver3\\contractmanager_v3\\web\\contracts";
             filePart.write(path + fileName);
             Thread.sleep(2500);
             request.setAttribute("path", path + fileName);

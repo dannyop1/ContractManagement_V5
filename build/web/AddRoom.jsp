@@ -171,11 +171,11 @@
         <main id="main" class="main">
 
             <div class="pagetitle">
-                <h1>Dashboard</h1>
+                <h1>ADD ROOM</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="MainController?action=getInfo">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Add Room For Owner</li>
                     </ol>
                 </nav>
             </div><!-- End Page Title -->
@@ -185,23 +185,21 @@
             <section class="section dashboard">
                 <div class="row">
                     <div class="col-lg-12">
-                        <table>
-                            <form action="MainController" method="post">
-                                <tr>
-                                    <td><input type="text" class="form-control" id="floatingInput" placeholder="INPUT OWNER CID" name="CID" value="${CID}"/></td>
-
-                                    <td>
-                                        <input class="btn btn-primary" type="submit" value="Search Owner"/>
-                                        <input type="hidden" value="GetOwner" name="action"/>
-                                    </td>
-                                </tr>
-                            </form>
-                        </table>
-
-                        <form action="UploadContractPDFServlet" enctype="multipart/form-data" method="post">
-                            <input type="file" name="pdf">
-                            <input type="submit" value="Upload">
-                        </form>
+                        
+                       
+                      <form class="row g-3" action="UploadContractPDFServlet" enctype="multipart/form-data" method="post">
+                                <div class="col-lg-4">
+                                    <label class="form-label">CHOOSE YOUR ROOM IMAGE</label> 
+                                    <input class="form-control" type="file" name="pdf" multiple>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label class="form-label">UPLOAD</label>
+                                        <input class="btn btn-primary w-100" type="submit" value="Upload">
+                                    </div>
+                              
+                          </form>
+                         
+                       
                         <c:set var="owner" value="${requestScope.owner}"/>
                         <c:set var="RoID" value="${requestScope.room}"/>
                         <table class="table table-striped">
