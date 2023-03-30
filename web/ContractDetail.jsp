@@ -383,7 +383,7 @@
                                     <h5>- The lease term has expired</h5>
                                     <h5>- The leased house must be demolished due to serious damage that may make the house collapse or due to the implementation of the State's construction planning.</h5><br>
                                     <h5><b>Additional note </b></h5>
-                                    <h4><span class="badge text-bg-info"> ${contract.getDescription()}</span></h4>
+                                    <h4 style="color:red">${contract.getDescription()}></h4>
                                 </div>
                             </div>
                         </div>

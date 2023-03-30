@@ -245,14 +245,14 @@
                                     <label for="inputDate" class="col-sm-2 col-form-label">Start Date</label>
                                     <div class="col-sm-10">
                                         <input name="dateFrom" type="date" value="${requestScope.dateFrom}" class="form-control" style="width: 70%;"/>
-                                        ${requestScope.fromError}
+                                        <div style="color:red">${requestScope.fromError}</div>
                                     </div>
                                 </div>
                                 <div style="margin-left: 20%;" class="row mb-3">
                                     <label for="inputDate" class="col-sm-2 col-form-label">End Date</label>
                                     <div class="col-sm-10">
                                         <input name="dateTo" type="date" value="${requestScope.dateTo}" class="form-control" style="width: 70%;">
-                                        ${requestScope.toError}
+                                        <div style="color:red">${requestScope.toError}</div>
                                     </div>
                                 </div>
                                 <div style="margin-left: 20%;" class="row mb-3">
@@ -280,7 +280,7 @@
                                 </div>
 
                             </form><!-- End General Form Elements -->
-                            ${requestScope.noti}
+                            <h3 style="color:green"> ${requestScope.noti} </h3>
                             <script>
                                 function auto_height(elem) {  /* javascript */
                                     elem.style.height = "1px";
