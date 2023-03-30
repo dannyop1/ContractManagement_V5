@@ -30,10 +30,10 @@
         <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
         <link href="landing page/css/bootstrap.min.css" rel="stylesheet">
 
-       
+
         <link href="assets/css/style.css" rel="stylesheet">
 
-  
+
     </head>
     <body>
 
@@ -55,12 +55,12 @@
 
                         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                             <img src="images/${sessionScope.user.getAvatar()}" alt="Profile" class="rounded-circle">
-                            <span class="d-none d-md-block dropdown-toggle ps-2">${sessionScope.user.fullName}</span>
+                            <span class="d-none d-md-block dropdown-toggle ps-2"></span>
                         </a><!-- End Profile Iamge Icon -->
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                             <li class="dropdown-header">
-                                <h6>${sessionScope.user.fullName}</h6>
+                                <h6></h6>
 
                             </li>
                             <li>
@@ -171,11 +171,11 @@
         <main id="main" class="main">
 
             <div class="pagetitle">
-                <h1>ADD ROOM</h1>
+                <h1>Dashboard</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="MainController?action=getInfo">Home</a></li>
-                        <li class="breadcrumb-item active">Add Room For Owner</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </nav>
             </div><!-- End Page Title -->
@@ -187,20 +187,25 @@
                     <div class="col-lg-12">
                         <table>
                             <form action="MainController" method="post">
-                            <tr>
-                                <td><input type="text" class="form-control" id="floatingInput" placeholder="INPUT OWNER CID" name="CID" value="${CID}"/></td>
+                                <tr>
+                                    <td><input type="text" class="form-control" id="floatingInput" placeholder="INPUT OWNER CID" name="CID" value="${CID}"/></td>
 
-                                <td>
-                                    <input class="btn btn-primary" type="submit" value="Search Owner"/>
-                                    <input type="hidden" value="GetOwner" name="action"/>
-                                </td>
-                                </form>
+                                    <td>
+                                        <input class="btn btn-primary" type="submit" value="Search Owner"/>
+                                        <input type="hidden" value="GetOwner" name="action"/>
+                                    </td>
+                                </tr>
+                            </form>
                         </table>
-                                
-                                <c:set var="roomFreeList" value="${requestScope.roomFreeList}"/>
-                                <c:set var="ownerList" value="${requestScope.ownerList}"/>
-                                <table class="table table-striped">
-                                    <thead>
+
+                        <form action="UploadContractPDFServlet" enctype="multipart/form-data" method="post">
+                            <input type="file" name="pdf">
+                            <input type="submit" value="Upload">
+                        </form>
+                        <c:set var="owner" value="${requestScope.owner}"/>
+                        <c:set var="RoID" value="${requestScope.room}"/>
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
@@ -208,38 +213,33 @@
                                     <th scope="col">Phone</th>
                                     <th scope="col">Room</th>
                                     <th scope="col">Action</th>
-                                   
                                 </tr>
-                                    </thead>
-                                    <tbody>
-                                <c:forEach var="owner" items="${ownerList}">
-                                    <tr>
-                                        <td>${owner.getOID()}</td>
-                                        <td>${owner.getFullName()}</td>
-                                        <td>${owner.getCID()}</td>
-                                        <td>${owner.getPhoneNumber()}</td>
-                                    <form action="MainController" method="post">
-                                        <td>
-                                            <select name="RoID">
-                                                <c:forEach var="RoID" items="${roomFreeList}">
-                                                    <option value="${RoID}">${RoID}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </td>
-                                        <td><input class="btn btn-success" type="submit" value="Add Room"</td>
-                                        <input type="hidden" value="AddRoom" name="action"/>
-                                        <input type="hidden" value="${owner.getOID()}" name="OID"/>
-                                        <input type="hidden" value="${CID}" name="CID"/>
-                                    </form>
-                                    </tr>
-                                </c:forEach>
-                                    </tbody>
-                                    <tr ><div style="color:green;">${requestScope.noti}</div></td></tr>
-                            </table>
-                            </section>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${owner.getOID()}</td>
+                                    <td>${owner.getFullName()}</td>
+                                    <td>${owner.getCID()}</td>
+                                    <td>${owner.getPhoneNumber()}</td>
+                            <form action="MainController" method="post">
+                                <td>${RoID}</td>
+                                <td><input class="btn btn-success" type="submit" value="Add Room"</td>
+                                <input type="hidden" value="AddRoom" name="action"/>
+                                <input type="hidden" value="${owner.getOID()}" name="OID"/>
+                                <input type="hidden" value="${CID}" name="CID"/>
+                                <input type="hidden" value="${RoID}" name="RoID"/>
 
-                            </main><!-- End #main -->
-                            <!-- End #main --------------------------------------------------------------------------------------------------------------->
+                            </form>
+                            </tr>
+                            </tbody>
+                            <tr ><div style="color:green;">${requestScope.noti}</div></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main><!-- End #main -->
+        <!-- End #main --------------------------------------------------------------------------------------------------------------->
 
 
 
@@ -252,36 +252,36 @@
 
 
 
-                            <!-- ======= Footer ======= -->
-                            <footer id="footer" class="footer">
-                                <div class="copyright">
-                                    &copy; Copyright <strong><span>Contract Management</span></strong>. All Rights Reserved
-                                </div>
-                                <div class="credits">
+        <!-- ======= Footer ======= -->
+        <footer id="footer" class="footer">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Contract Management</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
 
-                                    Designed by <a href="https://youtube.com">Contract Management team</a>
-                                </div>
-                            </footer><!-- End Footer -->
+                Designed by <a href="https://youtube.com">Contract Management team</a>
+            </div>
+        </footer><!-- End Footer -->
 
-                            <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-                            <!-- Vendor JS Files -->
-                            <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-                            <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                            <script src="assets/vendor/chart.js/chart.umd.js"></script>
-                            <script src="assets/vendor/echarts/echarts.min.js"></script>
-                            <script src="assets/vendor/quill/quill.min.js"></script>
-                            <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-                            <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-                            <script src="assets/vendor/php-email-form/validate.js"></script>
+        <!-- Vendor JS Files -->
+        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/vendor/chart.js/chart.umd.js"></script>
+        <script src="assets/vendor/echarts/echarts.min.js"></script>
+        <script src="assets/vendor/quill/quill.min.js"></script>
+        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+        <script src="assets/vendor/php-email-form/validate.js"></script>
 
-                            <!-- Template Main JS File -->
-                            <script src="assets/js/main.js"></script>
+        <!-- Template Main JS File -->
+        <script src="assets/js/main.js"></script>
 
-                            </body>
+    </body>
 
 
-                            </html>
+</html>
 
 
 

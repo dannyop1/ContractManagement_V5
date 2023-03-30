@@ -160,6 +160,14 @@
         <servlet-name>GetProfileDetaiServlet</servlet-name>
         <servlet-class>com.abc.contractmanager.controllers.GetProfileDetaiServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReadContractPDFServlet</servlet-name>
+        <servlet-class>com.abc.contractmanager.controllers.ReadContractPDFServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadContractPDFServlet</servlet-name>
+        <servlet-class>com.abc.contractmanager.controllers.UploadContractPDFServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -319,6 +327,14 @@
     <servlet-mapping>
         <servlet-name>GetProfileDetaiServlet</servlet-name>
         <url-pattern>/GetProfileDetaiServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReadContractPDFServlet</servlet-name>
+        <url-pattern>/ReadContractPDFServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadContractPDFServlet</servlet-name>
+        <url-pattern>/UploadContractPDFServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
