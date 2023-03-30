@@ -6,6 +6,7 @@
 package com.abc.contractmanager.controllers;
 
 import com.abc.contractmanager.dao.OwnerDAO;
+import com.abc.contractmanager.dao.RoomDAO;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,6 +54,9 @@ public class ReadContractPDFServlet extends HttpServlet {
                 }
             }
             doc.close();
+            
+            if(RoomDAO.updateOwner(0, 0))
+            
             request.setAttribute("owner", OwnerDAO.getOwnerByCID(CID));
             request.setAttribute("room", RoID);
 //            out.print("<h1>" + RoID + "</h1>");

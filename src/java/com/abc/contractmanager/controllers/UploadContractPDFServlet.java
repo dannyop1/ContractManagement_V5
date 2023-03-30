@@ -5,21 +5,14 @@
  */
 package com.abc.contractmanager.controllers;
 
-import com.abc.contractmanager.dao.OwnerDAO;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import org.apache.commons.io.output.ThresholdingOutputStream;
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 
 /**
  *
@@ -48,7 +41,7 @@ public class UploadContractPDFServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             Part filePart = request.getPart("pdf");
             String fileName = filePart.getSubmittedFileName();
-            String path = "D:\\Study\\SWP_Final\\ContractManager_V4\\web\\contracts\\";
+            String path = "D:\\Study\\SWP_Final\\ContractManagement_V5\\web\\contracts";
             filePart.write(path + fileName);
             Thread.sleep(2500);
             request.setAttribute("path", path + fileName);

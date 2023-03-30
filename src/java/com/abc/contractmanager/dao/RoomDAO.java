@@ -286,7 +286,8 @@ public class RoomDAO {
         return result;
     }
 
-
+//    public static boolean checkRoom
+    
     public static void main(String[] args) {
         System.out.println(getRoomImg(1));
     }
