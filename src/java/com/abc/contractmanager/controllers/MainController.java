@@ -164,6 +164,12 @@ public class MainController extends HttpServlet {
                 case "SaveProfileForUser":
                     url = "EditProfileServlet";
                     break;
+                case "Checkout":
+                    url = "AuthorizePaymentServlet";
+                    break;
+                case "Pay Now":
+                    url = "ExecutePaymentServlet";
+                    break;
             }
             request.getRequestDispatcher(url).forward(request, response);
         }

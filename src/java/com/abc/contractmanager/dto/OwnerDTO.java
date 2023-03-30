@@ -5,6 +5,7 @@
  */
 package com.abc.contractmanager.dto;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
@@ -22,12 +23,13 @@ public class OwnerDTO {
     private String avatar;
     private String address;
     private int status;
+    private BigDecimal credit;
     
 
     public OwnerDTO() {
     }
 
-    public OwnerDTO(int OID, String email, String CID, String password, Date dateOfBirth, String fullName, String phoneNumber, String avatar, String address, int status) {
+    public OwnerDTO(int OID, String email, String CID, String password, Date dateOfBirth, String fullName, String phoneNumber, String avatar, String address, int status, BigDecimal credit) {
         this.OID = OID;
         this.email = email;
         this.CID = CID;
@@ -38,6 +40,15 @@ public class OwnerDTO {
         this.avatar = avatar;
         this.address = address;
         this.status = status;
+        this.credit = credit;
+    }
+
+    public BigDecimal getCredit() {
+        return credit;
+    }
+
+    public void setCredit(BigDecimal credit) {
+        this.credit = credit;
     }
 
     public int getOID() {

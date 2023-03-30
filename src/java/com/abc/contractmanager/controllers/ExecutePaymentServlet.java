@@ -6,24 +6,25 @@
 package com.abc.contractmanager.controllers;
 
 import com.abc.contractmanager.dao.OwnerDAO;
-import com.abc.contractmanager.dao.RoomDAO;
 import com.abc.contractmanager.dto.OwnerDTO;
-import java.io.File;
+import com.abc.contractmanager.paypal.PaymentServices;
+import com.paypal.api.payments.PayerInfo;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.Transaction;
+import com.paypal.base.rest.PayPalRESTException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 
 /**
  *
  * @author mical
  */
-public class ReadContractPDFServlet extends HttpServlet {
+public class ExecutePaymentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,37 +40,15 @@ public class ReadContractPDFServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String path = (String) request.getAttribute("path");
-            File file = new File(path);
-            PDDocument doc = Loader.loadPDF(file);
-            String PDF_content = new PDFTextStripper().getText(doc);
-            System.out.println(PDF_content);
-            String RoID = "";
-            String CID = "";
-            for (String str : PDF_content.split("\n")) {
-                if (str.contains("Room number")) {
-                    RoID = str.split(": ")[1].trim();
-                } else if (str.contains("fica") && str.contains(":")) {
-                    CID = str.split(": ")[1].trim();
-                    break;
-                }
-            }
-            doc.close();
-            OwnerDTO owner = OwnerDAO.getOwnerByCID(CID);
-            if (owner == null) {
-                request.setAttribute("noti", "User not exist in the system!");
-                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
-            } else if (RoomDAO.isRoomFree(Integer.parseInt(RoID))) {
-                request.setAttribute("noti", "Something wrong!");
-                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
-            } else {
-                request.setAttribute("owner", owner);
-                request.setAttribute("room", RoID);
-                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
-            }
-
-//            out.print("<h1>" + RoID + "</h1>");
-//            out.print("<h1>" + CID + "</h1>");
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ExecutePaymentServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ExecutePaymentServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -99,7 +78,28 @@ public class ReadContractPDFServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String paymentId = request.getParameter("paymentId");
+        String payerId = request.getParameter("PayerID");
+
+        try {
+            PaymentServices paymentServices = new PaymentServices();
+            Payment payment = paymentServices.executePayment(paymentId, payerId);
+
+            PayerInfo payerInfo = payment.getPayer().getPayerInfo();
+            Transaction transaction = payment.getTransactions().get(0);
+
+            request.setAttribute("payer", payerInfo);
+            request.setAttribute("transaction", transaction);
+            int OID = ((OwnerDTO)request.getSession().getAttribute("user")).getOID();
+            BigDecimal oCredit = ((OwnerDTO)request.getSession().getAttribute("user")).getCredit();
+            OwnerDAO.updateCredit(OID, oCredit, BigDecimal.valueOf(Float.parseFloat(transaction.getAmount().getTotal())));
+            request.getRequestDispatcher("ReceiptPage.jsp").forward(request, response);
+
+        } catch (PayPalRESTException ex) {
+            request.setAttribute("errorMessage", ex.getMessage());
+            ex.printStackTrace();
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
     }
 
     /**

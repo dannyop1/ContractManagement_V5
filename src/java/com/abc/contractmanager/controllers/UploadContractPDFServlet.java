@@ -41,12 +41,16 @@ public class UploadContractPDFServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             Part filePart = request.getPart("pdf");
             String fileName = filePart.getSubmittedFileName();
-            String path = "D:\\Study\\SWP_Final\\ContractManagement_V5\\web\\contracts";
-            filePart.write(path + fileName);
-            Thread.sleep(2500);
-            request.setAttribute("path", path + fileName);
-            request.getRequestDispatcher("ReadContractPDFServlet").forward(request, response);
-            
+            if (!fileName.contains(".pdf")) {
+                request.setAttribute("noti", "Must be pdf file!");
+                request.getRequestDispatcher("AddRoom.jsp").forward(request, response);
+            } else {
+                String path = "D:\\Study\\SWP_Final\\ContractManagement_V5\\web\\contracts\\";
+                filePart.write(path + fileName);
+                Thread.sleep(2500);
+                request.setAttribute("path", path + fileName);
+                request.getRequestDispatcher("ReadContractPDFServlet").forward(request, response);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

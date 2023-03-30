@@ -8,6 +8,7 @@ package com.abc.contractmanager.dao;
 import com.abc.contractmanager.dto.OwnerDTO;
 import com.abc.contractmanager.utils.DBUtils;
 import com.abc.contractmanager.utils.Utilities;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class OwnerDAO {
             pr.setString(2, password);
             ResultSet rs = pr.executeQuery();
             if (rs.next()) {
-                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10));
+                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10), BigDecimal.valueOf(rs.getFloat(11)));
             }
             cn.close();
         } catch (Exception e) {
@@ -48,7 +49,7 @@ public class OwnerDAO {
             pr.setString(1, email);
             ResultSet rs = pr.executeQuery();
             if (rs.next()) {
-                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10));
+                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10), BigDecimal.valueOf(rs.getFloat(11)));
             }
             cn.close();
         } catch (Exception e) {
@@ -66,7 +67,7 @@ public class OwnerDAO {
             pr.setString(1, CID);
             ResultSet rs = pr.executeQuery();
             if (rs.next()) {
-                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10));
+                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10), BigDecimal.valueOf(rs.getFloat(11)));
             }
             cn.close();
         } catch (Exception e) {
@@ -84,7 +85,7 @@ public class OwnerDAO {
             pr.setInt(1, OID);
             ResultSet rs = pr.executeQuery();
             if (rs.next()) {
-                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10));
+                owner = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10), BigDecimal.valueOf(rs.getFloat(11)));
             }
             cn.close();
         } catch (Exception e) {
@@ -160,7 +161,7 @@ public class OwnerDAO {
             PreparedStatement pr = cn.prepareStatement(sql);
             ResultSet rs = pr.executeQuery();
             while (rs.next()) {
-                OwnerDTO user = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10));
+                OwnerDTO user = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10), BigDecimal.valueOf(rs.getFloat(11)));
                 list.add(user);
             }
             cn.close();
@@ -197,7 +198,7 @@ public class OwnerDAO {
             pr.setString(1, "%" + keyWord + "%");
             ResultSet rs = pr.executeQuery();
             while (rs.next()) {
-                OwnerDTO user = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10));
+                OwnerDTO user = new OwnerDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getInt(10), BigDecimal.valueOf(rs.getFloat(11)));
                 list.add(user);
             }
             cn.close();
@@ -296,5 +297,23 @@ public class OwnerDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static int updateCredit(int OID, BigDecimal oCredit, BigDecimal credit){
+        int result = 0;
+        try {
+            Connection cn = DBUtils.getConnection();
+            String sql = "UPDATE [dbo].[Owner] \n"
+                    + "set [Credit] = ?\n"
+                    + "where [OID] = ?";
+            PreparedStatement pr = cn.prepareStatement(sql);
+            pr.setFloat(1, credit.add(oCredit).floatValue());
+            pr.setInt(2, OID);
+            result = pr.executeUpdate();
+            cn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
