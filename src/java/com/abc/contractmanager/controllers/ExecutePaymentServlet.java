@@ -93,6 +93,7 @@ public class ExecutePaymentServlet extends HttpServlet {
             int OID = ((OwnerDTO)request.getSession().getAttribute("user")).getOID();
             BigDecimal oCredit = ((OwnerDTO)request.getSession().getAttribute("user")).getCredit();
             OwnerDAO.updateCredit(OID, oCredit, BigDecimal.valueOf(Float.parseFloat(transaction.getAmount().getTotal())));
+            request.getSession().setAttribute("user", OwnerDAO.getOwnerByOID(OID));
             request.getRequestDispatcher("ReceiptPage.jsp").forward(request, response);
 
         } catch (PayPalRESTException ex) {

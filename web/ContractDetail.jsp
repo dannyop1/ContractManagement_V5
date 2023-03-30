@@ -224,6 +224,11 @@
                                     <i class="bi bi-circle"></i><span>Create Contract</span>
                                 </a>
                             </li>
+                            <li>
+                            <a href="CreditDetail.jsp">
+                                <i class="bi bi-circle"></i><span>Add Credit</span>
+                            </a>
+                        </li>
                         </c:if>
 
                     </ul>

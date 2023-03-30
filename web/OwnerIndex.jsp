@@ -147,7 +147,7 @@
                         </li>
                         <li>
                             <a href="CreditDetail.jsp">
-                                <i class="bi bi-circle"></i><span>Nap tien</span>
+                                <i class="bi bi-circle"></i><span>Add Credit</span>
                             </a>
                         </li>
                     </ul>

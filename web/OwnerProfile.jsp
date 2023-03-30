@@ -150,6 +150,11 @@
                                 <i class="bi bi-circle"></i><span>Create new contract</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="CreditDetail.jsp">
+                                <i class="bi bi-circle"></i><span>Add Credit</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

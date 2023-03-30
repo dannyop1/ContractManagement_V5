@@ -53,8 +53,8 @@ public class PaymentServices {
 
     private RedirectUrls getRedirectUrls() {
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl("http://localhost:8084/contractmanager/Cancel.html");
-        redirectUrls.setReturnUrl("http://localhost:8084/contractmanager/ReviewPaymentServlet");
+        redirectUrls.setCancelUrl("http://localhost:8080/contractmanager/Cancel.html");
+        redirectUrls.setReturnUrl("http://localhost:8080/contractmanager/ReviewPaymentServlet");
         return redirectUrls;
     }
 
